@@ -9,6 +9,6 @@
 	::: : ::  :::: ::   :::     ::   ::   :::   ::  :::   :: ::::
 	 : :::    :: : :     :      :     :   : :   :   :::  : :: ::
 
-# A project builder powered by jascript #
+# A project builder based on by javascript language #
 This is our custom project builder used to compile the Victrix 3D engine and our games.
 
