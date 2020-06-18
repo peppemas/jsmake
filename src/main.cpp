@@ -66,43 +66,6 @@ int main(int argc, const char** argv)
 		if (extra_arguments != nullptr)
 			printf("extra parms: %s\n", extra_arguments);		
 
-		/*
-		ArgumentParser parser("jsmake", "Argument parser example");
-		
-		parser.add_argument()
-		.names({"-i", "--input"})
-		.description("Input file (default Makefile.js")
-		.required(false);
-		parser.add_argument("-a", "--args", "arguments", false);
-		parser.enable_help();
-		
-		auto err = parser.parse(argc, argv);
-		
-		if (err) {
-			std::cout << err << std::endl;
-			return -1;
-		}
-		
-		if (parser.exists("help")) {
-			std::cout << std::endl;
-			std::cout << "     @@@   @@@@@@   @@@@@@@@@@    @@@@@@   @@@  @@@  @@@@@@@@  " << std::endl;
-			std::cout << "     @@@  @@@@@@@   @@@@@@@@@@@  @@@@@@@@  @@@  @@@  @@@@@@@@  " << std::endl;
-			std::cout << "     @@!  !@@       @@! @@! @@!  @@!  @@@  @@!  !@@  @@!       " << std::endl;
-			std::cout << "     !@!  !@!       !@! !@! !@!  !@!  @!@  !@!  @!!  !@!       " << std::endl;
-			std::cout << "     !!@  !!@@!!    @!! !!@ @!@  @!@!@!@!  @!@@!@!   @!!!:!    " << std::endl;
-			std::cout << "     !!!   !!@!!!   !@!   ! !@!  !!!@!!!!  !!@!!!    !!!!!:    " << std::endl;
-			std::cout << "     !!:       !:!  !!:     !!:  !!:  !!!  !!: :!!   !!:       " << std::endl;
-			std::cout << "!!:  :!:      !:!   :!:     :!:  :!:  !:!  :!:  !:!  :!:       " << std::endl;
-			std::cout << "::: : ::  :::: ::   :::     ::   ::   :::   ::  :::   :: ::::  " << std::endl;
-			std::cout << " : :::    :: : :     :      :     :   : :   :   :::  : :: ::   " << std::endl;
-			std::cout << std::endl; 
-			std::cout << "Written with love by Giuseppe Mastrangelo (@peppemas) " << std::endl;
-			std::cout << std::endl; 
-			parser.print_help();
-			return 0;
-		}
-		*/
-
 		ctx.registerClass<Logger::Log>();
 		ctx.registerClass<Processor::Process>();
 		ctx.registerClass<Platform::Info>();
