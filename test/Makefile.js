@@ -1,6 +1,6 @@
 /***************************************************
  *
- * VICTRIX ENGINE Compilation Script
+ * JSMAKEFILE Compilation Script Test
  * 
  * Copyright (C) 2020 Victrix Games
  *
