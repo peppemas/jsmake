@@ -32,7 +32,7 @@ int main(int argc, const char** argv)
 
 	try {
 
-		const char *input_path = nullptr;
+		const char *input_filename = nullptr;
 		const char *extra_arguments = nullptr;
 
 		const char *logo = "\n"
@@ -49,7 +49,7 @@ int main(int argc, const char** argv)
 
 	    struct argparse_option options[] = {
 	        OPT_HELP(),
-	        OPT_STRING('i', "input", &input_path, "input filename (default Makefile.js)", NULL, 0, 0),
+	        OPT_STRING('i', "input", &input_filename, "input filename (default Makefile.js)", NULL, 0, 0),
 	        OPT_STRING('a', "arguments", &extra_arguments, "pass arguments to the script", NULL, 0, 0),
 	        OPT_END(),
 	    };
@@ -62,9 +62,6 @@ int main(int argc, const char** argv)
 		argparse_init(&argparse, options, usages, 0);
 		argparse_describe(&argparse, logo, nullptr);
 		argc = argparse_parse(&argparse, argc, argv);
-
-		if (extra_arguments != nullptr)
-			printf("extra parms: %s\n", extra_arguments);		
 
 		ctx.registerClass<Logger::Log>();
 		ctx.registerClass<Processor::Process>();
@@ -109,18 +106,26 @@ int main(int argc, const char** argv)
 		std::shared_ptr<ArgsEngine::Args> jsargs; 
 		ctx.getGlobal("Args", jsargs);
 		assert(jsargs);
-		//if (parser.exists("args")) {
-		//	std::cout << parser.get<std::string>("args") << std::endl;
-		//}
+		if (extra_arguments != nullptr) {
+		    jsargs->SetCommandLine(extra_arguments);
+		    jsargs->AddOption('x',"extra","extra parameters for JS");
+            jsargs->AddOption('f',"fake","fake parameter");
+            jsargs->Parse();
+            //jsargs->GetOption('x');
+		}
 
-		const char *makefile = "Makefile.js";
-		int result = cf_file_exists(makefile);
+		std::cout << "?????????????????????????????????????????????????" << std::endl;
+
+		if (input_filename == nullptr) {
+             input_filename = "Makefile.js";
+		}
+		int result = cf_file_exists(input_filename);
 		if (result == 0) {
-			std::cout << "File 'Makefile.js' not found." << std::endl;
+			std::cout << "File '" << input_filename << "' not found." << std::endl;
 			exit(1);
 		}
 
-		std::ifstream t(makefile);
+		std::ifstream t(input_filename);
 		std::string code((std::istreambuf_iterator<char>(t)), std::istreambuf_iterator<char>());
 
 		ctx.evalStringNoRes(code.c_str());

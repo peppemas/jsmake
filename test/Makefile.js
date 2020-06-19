@@ -69,3 +69,18 @@ Logger.info(template_result6);
 
 var template_result7 = Template.render("{% if \"Gaia\" in guests %}I found Gaia{% else %}Cannot find Gaia{% endif %}", JSON.stringify(template_vars3));
 Logger.info(template_result7);
+
+// ----------------------------------------------------------------------- Directory Operations
+
+Logger.info("The current Directory is: ");
+var currentDir = Directory.getCurrent();
+Logger.warn(currentDir);
+Logger.info("Create directory ciccio");
+var result = Directory.make("ciccio");
+Logger.info("Change current directory to ciccio");
+Directory.setCurrent("./ciccio");
+Logger.warn(Directory.getCurrent());
+Logger.info("Return previous directory");
+Directory.setCurrent(currentDir);
+Logger.warn("Delete Directory ciccio");
+Directory.remove("./ciccio");

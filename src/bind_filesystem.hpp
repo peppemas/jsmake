@@ -9,6 +9,10 @@
 #define CUTE_PATH_IMPLEMENTATION
 #include <cute_path.h>
 
+#if defined(_WIN32)
+#include <windows.h>
+#endif
+
 namespace FileSystem {
 
 	class Directory {
@@ -52,6 +56,49 @@ namespace FileSystem {
 				}
 				cf_dir_close(&_dir);
 			}
+
+			std::string GetCurrentDir()
+			{
+                #if defined(_WIN32)
+                char NPath[MAX_PATH];
+                GetCurrentDirectory(MAX_PATH, NPath);
+                return std::string(NPath);
+                #endif
+
+                // TODO: need implementation for other platforms
+
+                return 0;
+			}
+
+			int SetCurrentDir(std::string dir)
+            {
+			    #if defined(_WIN32)
+                if (!SetCurrentDirectory(dir.c_str())) return -1;
+                #endif
+                // TODO: need implementation for other platforms
+
+                return 0;
+            }
+
+			int MakeDir(std::string dir)
+            {
+                #if defined(_WIN32)
+                if (!CreateDirectoryA(dir.c_str(), 0)) return -1;
+                #endif
+                // TODO: need implementation for other platforms
+
+                return 0;
+            }
+
+            int RemoveDir(std::string dir)
+            {
+                #if defined(_WIN32)
+			    if (!RemoveDirectoryA(dir.c_str())) return -1;
+                #endif
+                // TODO: need implementation for other platforms
+
+			    return 0;
+            }
 
 			std::vector<std::string> CollectAllFiles(std::string dir, bool recursive, bool filenameOnly) 
 			{ 
@@ -98,6 +145,10 @@ namespace FileSystem {
 		        i.method("collectAllFiles", &Directory::CollectAllFiles);
 		        i.method("collectFilesWithExt", &Directory::CollectFilesWithExt);
 		        i.method("collectFilesContainingString", &Directory::CollectFilesContainingString);
+                i.method("getCurrent", &Directory::GetCurrentDir);
+                i.method("setCurrent", &Directory::SetCurrentDir);
+                i.method("make", &Directory::MakeDir);
+                i.method("remove", &Directory::RemoveDir);
 		    }
 	};
 
