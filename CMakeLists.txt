@@ -38,7 +38,17 @@ set(REPROC_HEADERS "third_parties/reproc/include/reproc/*.h")
 
 set(ARGPARSE_SOURCE "third_parties/argparse-master/argparse.c")
 
-file(GLOB_RECURSE source_files "src/*.cpp" ${DUKTAPE_SOURCE} ${DUKTAPE_CPP_SOURCE} ${REPROC_SOURCE} ${ARGPARSE_SOURCE} )
+set(IMGUI_SOURCE "third_parties/imgui-1.76/imgui.cpp" "third_parties/imgui-1.76/imgui_draw.cpp" "third_parties/imgui-1.76/imgui_widgets.cpp")
+set(IMTUI_SOURCE "third_parties/imtui/src/imtui-impl-text.cpp")
+
+file(GLOB_RECURSE source_files "src/*.cpp"
+        ${DUKTAPE_SOURCE}
+        ${DUKTAPE_CPP_SOURCE}
+        ${REPROC_SOURCE}
+        ${ARGPARSE_SOURCE}
+        ${IMGUI_SOURCE}
+        ${IMTUI_SOURCE}
+        )
 file(GLOB_RECURSE header_files "src/*.h")
 
 include_directories(src)
@@ -49,6 +59,8 @@ include_directories(third_parties/inja)
 include_directories(third_parties/cute_headers)
 include_directories(third_parties/argparse-master)
 include_directories(third_parties/termcolor/include)
+include_directories(third_parties/imgui-1.76)
+include_directories(third_parties/imtui/include)
 
 #add_executable(${PROJECT_NAME} ${source_files} ${header_files} ${inl_files})
 add_executable(${PROJECT_NAME} ${source_files} ${header_files} ${inl_files})

@@ -1,6 +1,6 @@
 /***************************************************
  *
- * JSMAKEFILE Compilation Script Test
+ * JSMAKEFILE Script Test
  * 
  * Copyright (C) 2020 Victrix Games
  *
@@ -103,9 +103,10 @@ Logger.info("Read the file line by line");
 var arrayContent = Directory.readLineByLine("ciccio.txt");
 Logger.warn("the file contains: " + arrayContent.length + " lines.");
 Logger.info("add a line between...");
-if (arrayContent.length == 2) {
+if (arrayContent.length === 2) {
 	arrayContent.splice(1, 0, "\nthis is a patch line.\n");	// NOTE: pay attention to newline for formatting
 }
 Logger.info("now the array contains " + arrayContent.length + " lines.");
 Logger.info("the content is now:")
 Logger.warn(arrayContent.join(""));
+
