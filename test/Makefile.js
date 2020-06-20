@@ -75,12 +75,18 @@ Logger.info(template_result7);
 Logger.info("The current Directory is: ");
 var currentDir = Directory.getCurrent();
 Logger.warn(currentDir);
+
 Logger.info("Create directory ciccio");
 var result = Directory.make("ciccio");
+
 Logger.info("Change current directory to ciccio");
 Directory.setCurrent("./ciccio");
 Logger.warn(Directory.getCurrent());
-Logger.info("Return previous directory");
+
+Logger.info("Return to previous directory");
 Directory.setCurrent(currentDir);
-Logger.warn("Delete Directory ciccio");
+
+Logger.warn("Delete directory ciccio");
 Directory.remove("./ciccio");
+
+// ----------------------------------------------------------------------- File Operations
