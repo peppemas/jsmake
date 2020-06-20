@@ -33,6 +33,7 @@ Logger.blank();
 Logger.info("==================================================");
 Logger.warn("This is a Warning Message");
 Logger.error("This is an Error Message");
+Logger.bold("This is a Bold Message");
 Logger.info("==================================================");
 
 // ----------------------------------------------------------------------- Test Template Engine
@@ -90,3 +91,21 @@ Logger.warn("Delete directory ciccio");
 Directory.remove("./ciccio");
 
 // ----------------------------------------------------------------------- File Operations
+
+Logger.bold("Write a file");
+Directory.writeTextFile("ciccio.txt","this is the content for ciccio.txt:\nHello World!!!");
+
+Logger.info("Read the text file");
+var content = Directory.readTextFile("ciccio.txt");
+Logger.info(content);
+
+Logger.info("Read the file line by line");
+var arrayContent = Directory.readLineByLine("ciccio.txt");
+Logger.warn("the file contains: " + arrayContent.length + " lines.");
+Logger.info("add a line between...");
+if (arrayContent.length == 2) {
+	arrayContent.splice(1, 0, "\nthis is a patch line.\n");	// NOTE: pay attention to newline for formatting
+}
+Logger.info("now the array contains " + arrayContent.length + " lines.");
+Logger.info("the content is now:")
+Logger.warn(arrayContent.join(""));

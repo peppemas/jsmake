@@ -1,5 +1,6 @@
 #include <memory>
 #include <iostream>
+#include <fstream>
 
 #include <duktape-cpp/DuktapeCpp.h>
 
@@ -129,6 +130,63 @@ namespace FileSystem {
             return filtered;
         };
 
+        std::string ReadTextFile(std::string filename)
+        {
+            std::ifstream inFile;
+            inFile.open(filename);
+
+            if (!inFile) {
+                std::cout << "Unable to open file " << filename << std::endl;
+                return 0;
+            }
+
+            std::string content((std::istreambuf_iterator<char>(inFile)),
+                    (std::istreambuf_iterator<char>()));
+
+            inFile.close();
+
+            return content;
+        }
+
+        std::vector<std::string> ReadLineByLine(std::string filename)
+        {
+            std::vector<std::string> lines;
+            std::ifstream inFile;
+            inFile.open(filename);
+
+            if (!inFile) {
+                std::cout << "Unable to open file " << filename << std::endl;
+                return lines;   // empty vector
+            }
+
+            std::string str;
+            while (std::getline(inFile, str))
+            {
+                lines.push_back(str);
+            }
+
+            inFile.close();
+
+            return lines;
+        }
+
+        int WriteTextFile(std::string filename, std::string content)
+        {
+            std::ofstream ouFile;
+            ouFile.open(filename);
+
+            if (!ouFile) {
+                std::cout << "Unable to open file " << filename << std::endl;
+                return -1;
+            }
+
+            ouFile << content;
+
+            ouFile.close();
+
+            return 0;
+        }
+
         /**
          * Inspect method defines class meta information (methods, properties etc..)
          * You can define `inspect` method inline or specialize `duk::Inspect` for your class
@@ -143,6 +201,9 @@ namespace FileSystem {
             i.method("setCurrent", &Directory::SetCurrentDir);
             i.method("make", &Directory::MakeDir);
             i.method("remove", &Directory::RemoveDir);
+            i.method("readTextFile",&Directory::ReadTextFile);
+            i.method("readLineByLine",&Directory::ReadLineByLine);
+            i.method("writeTextFile",&Directory::WriteTextFile);
         }
     };
 
