@@ -12,7 +12,6 @@
 #include <bind_filesystem.hpp>
 #include <bind_template.hpp>
 #include <bind_args.hpp>
-#include <bind_gui.hpp>
 
 #define CUTE_FILES_IMPLEMENTATION
 #include <cute_files.h>
@@ -24,7 +23,6 @@ DUK_CPP_DEF_CLASS_NAME(FileSystem::Directory);
 DUK_CPP_DEF_CLASS_NAME(FileSystem::Path);
 DUK_CPP_DEF_CLASS_NAME(TemplateEngine::Template);
 DUK_CPP_DEF_CLASS_NAME(ArgsEngine::Args);
-DUK_CPP_DEF_CLASS_NAME(GUIBinder::GUI);
 
 //using namespace argparse;
 
@@ -72,7 +70,6 @@ int main(int argc, const char** argv)
 		ctx.registerClass<FileSystem::Path>();
 		ctx.registerClass<TemplateEngine::Template>();
 		ctx.registerClass<ArgsEngine::Args>();
-		ctx.registerClass<GUIBinder::GUI>();
 
 		ctx.evalStringNoRes("var Logger = new Logger.Log()");
 		ctx.evalStringNoRes("var Processor = new Processor.Process()");
@@ -81,7 +78,6 @@ int main(int argc, const char** argv)
 		ctx.evalStringNoRes("var Path = new FileSystem.Path()");
 		ctx.evalStringNoRes("var Template = new TemplateEngine.Template();");
 		ctx.evalStringNoRes("var Args = new ArgsEngine.Args();");
-		ctx.evalStringNoRes("var Gui = new GUIBinder.GUI();");
 
 		std::shared_ptr<Logger::Log> logger;
 		ctx.getGlobal("Logger", logger);
@@ -117,10 +113,6 @@ int main(int argc, const char** argv)
             jsargs->Parse();
             //jsargs->GetOption('x');
 		}
-
-        std::shared_ptr<GUIBinder::GUI> jsgui;
-        ctx.getGlobal("Gui", jsgui);
-        assert(jsgui);
 
 		if (input_filename == nullptr) {
              input_filename = "Makefile.js";

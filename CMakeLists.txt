@@ -2,6 +2,9 @@ cmake_minimum_required(VERSION 2.8.11)
 
 project(jsmake)
 enable_language(CXX)
+
+SET(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
+SET(BUILD_SHARED_LIBS OFF)
 SET(CMAKE_EXE_LINKER_FLAGS "-static")
 SET(CMAKE_GENERATOR_TOOLSET "x64")
 
@@ -38,17 +41,12 @@ set(REPROC_HEADERS "third_parties/reproc/include/reproc/*.h")
 
 set(ARGPARSE_SOURCE "third_parties/argparse-master/argparse.c")
 
-set(IMGUI_SOURCE "third_parties/imgui-1.76/imgui.cpp" "third_parties/imgui-1.76/imgui_draw.cpp" "third_parties/imgui-1.76/imgui_widgets.cpp")
-set(IMTUI_SOURCE "third_parties/imtui/src/imtui-impl-text.cpp")
-
 file(GLOB_RECURSE source_files "src/*.cpp"
-        ${DUKTAPE_SOURCE}
-        ${DUKTAPE_CPP_SOURCE}
-        ${REPROC_SOURCE}
-        ${ARGPARSE_SOURCE}
-        ${IMGUI_SOURCE}
-        ${IMTUI_SOURCE}
-        )
+          ${DUKTAPE_SOURCE}
+          ${DUKTAPE_CPP_SOURCE}
+          ${REPROC_SOURCE}
+          ${ARGPARSE_SOURCE}
+          )
 file(GLOB_RECURSE header_files "src/*.h")
 
 include_directories(src)
@@ -62,11 +60,11 @@ include_directories(third_parties/termcolor/include)
 include_directories(third_parties/imgui-1.76)
 include_directories(third_parties/imtui/include)
 
-#add_executable(${PROJECT_NAME} ${source_files} ${header_files} ${inl_files})
 add_executable(${PROJECT_NAME} ${source_files} ${header_files} ${inl_files})
 set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 14)
 
-if(WIN32)
-  target_compile_definitions(jsmake PRIVATE WIN32_LEAN_AND_MEAN)
-  target_link_libraries(${PROJECT_NAME} PRIVATE ws2_32)
+target_compile_definitions(jsmake PRIVATE WIN32_LEAN_AND_MEAN)
+
+if (WIN32)
+target_link_libraries(${PROJECT_NAME} PRIVATE ws2_32)
 endif()
