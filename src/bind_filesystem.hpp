@@ -13,6 +13,11 @@
 #if defined(_WIN32)
 #include <windows.h>
 #endif
+#if defined(__linux__)
+    #include <unistd.h>
+    #include <sys/stat.h>
+    #include <sys/types.h>
+#endif
 
 namespace FileSystem {
 
@@ -63,7 +68,9 @@ namespace FileSystem {
             GetCurrentDirectory(MAX_PATH, NPath);
             return std::string(NPath);
 #endif
-
+#if defined(__linux__)
+            return std::string(get_current_dir_name());
+#endif
             // TODO: need implementation for other platforms
 
             return 0;
@@ -71,29 +78,38 @@ namespace FileSystem {
 
         int SetCurrentDir(std::string dir) {
 #if defined(_WIN32)
-            if (!SetCurrentDirectory(dir.c_str())) return -1;
+            return SetCurrentDirectory(dir.c_str());
+#endif
+#if defined(__linux__)
+            return chdir(dir.c_str());
 #endif
             // TODO: need implementation for other platforms
 
-            return 0;
+            return -1;
         }
 
         int MakeDir(std::string dir) {
 #if defined(_WIN32)
-            if (!CreateDirectoryA(dir.c_str(), 0)) return -1;
+            return CreateDirectoryA(dir.c_str(), 0);
+#endif
+#if defined(__linux__)
+            return mkdir(dir.c_str(), 0);
 #endif
             // TODO: need implementation for other platforms
 
-            return 0;
+            return -1;
         }
 
         int RemoveDir(std::string dir) {
 #if defined(_WIN32)
-            if (!RemoveDirectoryA(dir.c_str())) return -1;
+            return RemoveDirectoryA(dir.c_str());
+#endif
+#if defined(__linux__)
+            return rmdir(dir.c_str());
 #endif
             // TODO: need implementation for other platforms
 
-            return 0;
+            return -1;
         }
 
         std::vector<std::string> CollectAllFiles(std::string dir, bool recursive, bool filenameOnly) {
