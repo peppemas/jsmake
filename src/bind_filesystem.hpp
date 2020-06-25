@@ -1,3 +1,5 @@
+#pragma once
+
 #include <memory>
 #include <iostream>
 #include <fstream>
@@ -19,7 +21,7 @@
     #include <sys/types.h>
 #endif
 
-namespace FileSystem {
+namespace FileSystemBinder {
 
     class Directory {
     public:
@@ -110,6 +112,11 @@ namespace FileSystem {
             // TODO: need implementation for other platforms
 
             return -1;
+        }
+
+        int RemoveFile(std::string filename)
+        {
+            return remove(filename.c_str());
         }
 
         std::vector<std::string> CollectAllFiles(std::string dir, bool recursive, bool filenameOnly) {
@@ -220,6 +227,7 @@ namespace FileSystem {
             i.method("readTextFile",&Directory::ReadTextFile);
             i.method("readLineByLine",&Directory::ReadLineByLine);
             i.method("writeTextFile",&Directory::WriteTextFile);
+            i.method("removeFile",&Directory::RemoveFile);
         }
     };
 

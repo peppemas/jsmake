@@ -1,3 +1,5 @@
+#pragma once
+
 #include <memory>
 #include <iostream>
 #include <vector>
@@ -7,7 +9,7 @@
 #include <duktape-cpp/DuktapeCpp.h>
 #include <reproc/run.h>
 
-namespace Processor {
+namespace ProcessorBinder {
 
 	class Process {
 		public:

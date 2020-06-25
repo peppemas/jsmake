@@ -2,12 +2,12 @@
 Duktape 1.x compatible logging framework
 ========================================
 
-The default ``Duktape.Logger`` object and the logging related C API calls
+The default ``Duktape.LoggerBinder`` object and the logging related C API calls
 (``duk_log()``, ``duk_log_va()``) were removed in Duktape 2.x because they
 depended on stdout/stderr and were thus a portability issue for some targets
 (there were also other issues, such as the logging framework not always
 matching user expectations).  This directory contains Duktape 1.x compatible
-``Duktape.Logger`` object and logging API calls:
+``Duktape.LoggerBinder`` object and logging API calls:
 
 * Add ``duk_logging.c`` to list of C sources to compile.
 
@@ -25,7 +25,7 @@ matching user expectations).  This directory contains Duktape 1.x compatible
 
   See ``duk_logging.h`` for available flags.
 
-* After these steps, ``Duktape.Logger`` will be registered to the ``Duktape``
+* After these steps, ``Duktape.LoggerBinder`` will be registered to the ``Duktape``
   object and is ready to use.
 
 See https://github.com/svaarala/duktape/blob/master/doc/logging.rst and

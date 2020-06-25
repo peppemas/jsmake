@@ -110,3 +110,10 @@ Logger.info("now the array contains " + arrayContent.length + " lines.");
 Logger.info("the content is now:")
 Logger.warn(arrayContent.join(""));
 
+// ----------------------------------------------------------------------- Include
+
+Directory.setCurrent("../test/");
+Js.include("test_include.js");
+test_include();
+Directory.setCurrent(currentDir);
+

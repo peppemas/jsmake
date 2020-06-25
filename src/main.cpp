@@ -1,7 +1,6 @@
 #include <cstdio>
 #include <cstdlib>
 #include <fstream>
-#include <streambuf>
 
 #include <argparse.h>
 #include <duktape.h>
@@ -12,17 +11,18 @@
 #include <bind_filesystem.hpp>
 #include <bind_template.hpp>
 #include <bind_args.hpp>
+#include <bind_javascript.hpp>
 
 #define CUTE_FILES_IMPLEMENTATION
-#include <cute_files.h>
 
-DUK_CPP_DEF_CLASS_NAME(Logger::Log);
-DUK_CPP_DEF_CLASS_NAME(Processor::Process);
-DUK_CPP_DEF_CLASS_NAME(Platform::Info);
-DUK_CPP_DEF_CLASS_NAME(FileSystem::Directory);
-DUK_CPP_DEF_CLASS_NAME(FileSystem::Path);
-DUK_CPP_DEF_CLASS_NAME(TemplateEngine::Template);
-DUK_CPP_DEF_CLASS_NAME(ArgsEngine::Args);
+DUK_CPP_DEF_CLASS_NAME(LoggerBinder::Log);
+DUK_CPP_DEF_CLASS_NAME(ProcessorBinder::Process);
+DUK_CPP_DEF_CLASS_NAME(PlatformBinder::Info);
+DUK_CPP_DEF_CLASS_NAME(FileSystemBinder::Directory);
+DUK_CPP_DEF_CLASS_NAME(FileSystemBinder::Path);
+DUK_CPP_DEF_CLASS_NAME(TemplateBinder::Template);
+DUK_CPP_DEF_CLASS_NAME(ArgsBinder::Args);
+DUK_CPP_DEF_CLASS_NAME(JavascriptBinder::Javascript);
 
 //using namespace argparse;
 
@@ -63,47 +63,49 @@ int main(int argc, const char** argv)
 		argparse_describe(&argparse, logo, nullptr);
 		argc = argparse_parse(&argparse, argc, argv);
 
-		ctx.registerClass<Logger::Log>();
-		ctx.registerClass<Processor::Process>();
-		ctx.registerClass<Platform::Info>();
-		ctx.registerClass<FileSystem::Directory>();
-		ctx.registerClass<FileSystem::Path>();
-		ctx.registerClass<TemplateEngine::Template>();
-		ctx.registerClass<ArgsEngine::Args>();
+		ctx.registerClass<LoggerBinder::Log>();
+		ctx.registerClass<ProcessorBinder::Process>();
+		ctx.registerClass<PlatformBinder::Info>();
+		ctx.registerClass<FileSystemBinder::Directory>();
+		ctx.registerClass<FileSystemBinder::Path>();
+		ctx.registerClass<TemplateBinder::Template>();
+		ctx.registerClass<ArgsBinder::Args>();
+		ctx.registerClass<JavascriptBinder::Javascript>();
 
-		ctx.evalStringNoRes("var Logger = new Logger.Log()");
-		ctx.evalStringNoRes("var Processor = new Processor.Process()");
-		ctx.evalStringNoRes("var Platform = new Platform.Info()");
-		ctx.evalStringNoRes("var Directory = new FileSystem.Directory()");
-		ctx.evalStringNoRes("var Path = new FileSystem.Path()");
-		ctx.evalStringNoRes("var Template = new TemplateEngine.Template();");
-		ctx.evalStringNoRes("var Args = new ArgsEngine.Args();");
+		ctx.evalStringNoRes("var Logger = new LoggerBinder.Log()");
+		ctx.evalStringNoRes("var Processor = new ProcessorBinder.Process()");
+		ctx.evalStringNoRes("var Platform = new PlatformBinder.Info()");
+		ctx.evalStringNoRes("var Directory = new FileSystemBinder.Directory()");
+		ctx.evalStringNoRes("var Path = new FileSystemBinder.Path()");
+		ctx.evalStringNoRes("var Template = new TemplateBinder.Template()");
+		ctx.evalStringNoRes("var Args = new ArgsBinder.Args()");
+		ctx.evalStringNoRes("var Js = new JavascriptBinder.Javascript()");
 
-		std::shared_ptr<Logger::Log> logger;
+		std::shared_ptr<LoggerBinder::Log> logger;
 		ctx.getGlobal("Logger", logger);
 		assert(logger);
 
-		std::shared_ptr<Processor::Process> processor;
+		std::shared_ptr<ProcessorBinder::Process> processor;
 		ctx.getGlobal("Processor", processor);
 		assert(processor);
 
-		std::shared_ptr<Platform::Info> platform;
+		std::shared_ptr<PlatformBinder::Info> platform;
 		ctx.getGlobal("Platform", platform);
 		assert(platform);
 
-		std::shared_ptr<FileSystem::Directory> directory;
+		std::shared_ptr<FileSystemBinder::Directory> directory;
 		ctx.getGlobal("Directory", directory);
 		assert(directory);
 
-		std::shared_ptr<FileSystem::Path> path;
+		std::shared_ptr<FileSystemBinder::Path> path;
 		ctx.getGlobal("Path", path);
 		assert(path);
 
-		std::shared_ptr<TemplateEngine::Template> jstemplate;
+		std::shared_ptr<TemplateBinder::Template> jstemplate;
 		ctx.getGlobal("Template", jstemplate);
 		assert(jstemplate);
 
-		std::shared_ptr<ArgsEngine::Args> jsargs;
+		std::shared_ptr<ArgsBinder::Args> jsargs;
 		ctx.getGlobal("Args", jsargs);
 		assert(jsargs);
 		if (extra_arguments != nullptr) {
@@ -113,6 +115,11 @@ int main(int argc, const char** argv)
             jsargs->Parse();
             //jsargs->GetOption('x');
 		}
+
+		std::shared_ptr<JavascriptBinder::Javascript> jsscript;
+		ctx.getGlobal("Js", jsscript);
+		assert(jsscript);
+		jsscript->Initialize(&ctx);
 
 		if (input_filename == nullptr) {
              input_filename = "Makefile.js";

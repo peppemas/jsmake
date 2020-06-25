@@ -1,6 +1,8 @@
+#pragma once
+
 #include <argparse.h>
 
-namespace ArgsEngine {
+namespace ArgsBinder {
 
     class Args {
     private:

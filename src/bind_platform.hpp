@@ -1,9 +1,11 @@
+#pragma once
+
 #include <memory>
 #include <iostream>
 
 #include <duktape-cpp/DuktapeCpp.h>
 
-namespace Platform {
+namespace PlatformBinder {
 
 	class Info {
 		public:

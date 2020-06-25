@@ -1,3 +1,5 @@
+#pragma once
+
 #include <memory>
 
 #if defined(__CYGWIN__)
@@ -13,7 +15,7 @@
 #include <duktape-cpp/DuktapeCpp.h>
 #include <termcolor/termcolor.hpp>
 
-namespace Logger {
+namespace LoggerBinder {
 
 	class Log {
 		public:

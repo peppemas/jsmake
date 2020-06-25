@@ -1,10 +1,12 @@
+#pragma once
+
 #include <inja.hpp>
 #include <nlohmann/json.hpp>
 
 using namespace inja;
 using json = nlohmann::json;
 
-namespace TemplateEngine {
+namespace TemplateBinder {
 
 	class Template {
 		public:

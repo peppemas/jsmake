@@ -385,7 +385,7 @@
 #endif
 
 /*
- *  Platform autodetection
+ *  PlatformBinder autodetection
  */
 
 /* Workaround for older C++ compilers before including <inttypes.h>,
