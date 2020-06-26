@@ -117,3 +117,9 @@ Js.include("test_include.js");
 test_include();
 Directory.setCurrent(currentDir);
 
+// ----------------------------------------------------------------------- System
+
+var ENVPATH = System.env("PATH");
+Logger.info("Current Environment PATH:");
+Logger.info(ENVPATH);
+

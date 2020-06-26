@@ -12,6 +12,7 @@
 #include <bind_template.hpp>
 #include <bind_args.hpp>
 #include <bind_javascript.hpp>
+#include <bind_system.hpp>
 
 #define CUTE_FILES_IMPLEMENTATION
 
@@ -23,6 +24,7 @@ DUK_CPP_DEF_CLASS_NAME(FileSystemBinder::Path);
 DUK_CPP_DEF_CLASS_NAME(TemplateBinder::Template);
 DUK_CPP_DEF_CLASS_NAME(ArgsBinder::Args);
 DUK_CPP_DEF_CLASS_NAME(JavascriptBinder::Javascript);
+DUK_CPP_DEF_CLASS_NAME(SystemBinder::System);
 
 //using namespace argparse;
 
@@ -71,6 +73,7 @@ int main(int argc, const char** argv)
 		ctx.registerClass<TemplateBinder::Template>();
 		ctx.registerClass<ArgsBinder::Args>();
 		ctx.registerClass<JavascriptBinder::Javascript>();
+		ctx.registerClass<SystemBinder::System>();
 
 		ctx.evalStringNoRes("var Logger = new LoggerBinder.Log()");
 		ctx.evalStringNoRes("var Processor = new ProcessorBinder.Process()");
@@ -80,6 +83,7 @@ int main(int argc, const char** argv)
 		ctx.evalStringNoRes("var Template = new TemplateBinder.Template()");
 		ctx.evalStringNoRes("var Args = new ArgsBinder.Args()");
 		ctx.evalStringNoRes("var Js = new JavascriptBinder.Javascript()");
+        ctx.evalStringNoRes("var System = new SystemBinder.System()");
 
 		std::shared_ptr<LoggerBinder::Log> logger;
 		ctx.getGlobal("Logger", logger);
@@ -121,7 +125,11 @@ int main(int argc, const char** argv)
 		assert(jsscript);
 		jsscript->Initialize(&ctx);
 
-		if (input_filename == nullptr) {
+        std::shared_ptr<SystemBinder::System> system;
+        ctx.getGlobal("System", system);
+        assert(system);
+
+        if (input_filename == nullptr) {
              input_filename = "Makefile.js";
 		}
 		int result = cf_file_exists(input_filename);
