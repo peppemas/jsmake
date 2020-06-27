@@ -42,12 +42,14 @@ set(REPROC_SOURCE
 set(REPROC_HEADERS "third_parties/reproc/include/reproc/*.h")
 
 set(ARGPARSE_SOURCE "third_parties/argparse-master/argparse.c")
+set(LINENOISE_NG_SOURCE "third_parties/linenoise-ng/src/*.cpp")
 
 file(GLOB_RECURSE source_files "src/*.cpp"
           ${DUKTAPE_SOURCE}
           ${DUKTAPE_CPP_SOURCE}
           ${REPROC_SOURCE}
           ${ARGPARSE_SOURCE}
+          ${LINENOISE_NG_SOURCE}
           )
 file(GLOB_RECURSE header_files "src/*.h")
 
@@ -59,6 +61,7 @@ include_directories(third_parties/inja)
 include_directories(third_parties/cute_headers)
 include_directories(third_parties/argparse-master)
 include_directories(third_parties/termcolor/include)
+include_directories(third_parties/linenoise-ng/include)
 
 add_executable(${PROJECT_NAME} ${source_files} ${header_files} ${inl_files})
 set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 14)

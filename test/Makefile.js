@@ -132,3 +132,7 @@ var ENVPATH = System.env("PATH");
 Logger.info("Current Environment PATH:");
 Logger.info(ENVPATH);
 
+// ----------------------------------------------------------------------- Terminal
+
+var name = Terminal.prompt("Please enter your name: ");
+Logger.warn("Hello  " + name + "!" );
