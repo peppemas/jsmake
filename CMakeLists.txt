@@ -14,6 +14,8 @@ else()
   set(PLATFORM posix)
 endif()
 
+set(CMAKE_C_FLAGS "-D IW_64")
+
 set(DUKTAPE_SOURCE "third_parties/duktape-2.5.0/src/*.c")
 set(DUKTAPE_HEADERS "third_parties/duktape-2.5.0/src/*.h")
 
@@ -57,8 +59,6 @@ include_directories(third_parties/inja)
 include_directories(third_parties/cute_headers)
 include_directories(third_parties/argparse-master)
 include_directories(third_parties/termcolor/include)
-include_directories(third_parties/imgui-1.76)
-include_directories(third_parties/imtui/include)
 
 add_executable(${PROJECT_NAME} ${source_files} ${header_files} ${inl_files})
 set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 14)

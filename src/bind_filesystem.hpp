@@ -119,6 +119,27 @@ namespace FileSystemBinder {
             return remove(filename.c_str());
         }
 
+        bool FileExists(std::string filename)
+        {
+            return cf_file_exists(filename.c_str()) == 1;
+        }
+
+        std::string GetFileTime(std::string filename)
+        {
+            char str[100];
+            cf_time_t filetime;
+            if (cf_get_file_time(filename.c_str(), &filetime) != 0)
+            {
+#if defined(_WIN32)
+                LONGLONG posix = FILETIME_to_POSIX(filetime.time);
+                snprintf(str, 100, "%lld", posix);
+#else
+                snprintf(str, 100, "%lld", (long long)filetime.time);
+#endif
+            }
+            return std::string(str);
+        }
+
         std::vector<std::string> CollectAllFiles(std::string dir, bool recursive, bool filenameOnly) {
             std::vector<std::string> files;
             RecursiveCollect(&files, dir, NULL, recursive, filenameOnly);
@@ -228,7 +249,29 @@ namespace FileSystemBinder {
             i.method("readLineByLine",&Directory::ReadLineByLine);
             i.method("writeTextFile",&Directory::WriteTextFile);
             i.method("removeFile",&Directory::RemoveFile);
+            i.method("fileExists",&Directory::FileExists);
+            i.method("fileTime",&Directory::GetFileTime);
         }
+
+    private:
+#if defined(_WIN32)
+        LONGLONG FILETIME_to_POSIX(FILETIME ft)
+        {
+            // takes the last modified date
+            LARGE_INTEGER date, adjust;
+            date.HighPart = ft.dwHighDateTime;
+            date.LowPart = ft.dwLowDateTime;
+
+            // 100-nanoseconds = milliseconds * 10000
+            adjust.QuadPart = 11644473600000 * 10000;
+
+            // removes the diff between 1970 and 1601
+            date.QuadPart -= adjust.QuadPart;
+
+            // converts back from 100-nanoseconds to seconds
+            return date.QuadPart / 10000000;
+        }
+#endif
     };
 
     class Path {

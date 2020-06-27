@@ -110,6 +110,15 @@ Logger.info("now the array contains " + arrayContent.length + " lines.");
 Logger.info("the content is now:")
 Logger.warn(arrayContent.join(""));
 
+if (Directory.fileExists("../test/test_include.js")) {
+	Logger.info("test_include.js exists");
+	var filetime = Directory.fileTime("../test/test_include.js");
+	Logger.info("File was modified at: " + filetime);
+}
+if (!Directory.fileExists("not_exists.txt")) {
+	Logger.warn("note_exists.txt ... not exists!");
+}
+
 // ----------------------------------------------------------------------- Include
 
 Directory.setCurrent("../test/");
