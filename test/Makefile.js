@@ -8,6 +8,17 @@
 
 var platform = "You are running on ";
 
+// ----------------------------------------------------------------------- Test Processor
+
+Logger.info("Who Am I ???");
+var proc_result = Processor.run("whoami");
+var proc_output = Processor.getOutput();
+Logger.warn("["+ proc_result + "]: " + proc_output);
+proc_result = Processor.run("thisprocessnotexists");
+proc_output = Processor.getError();
+Logger.warn("["+ proc_result + "]: " + proc_output);
+
+
 // ----------------------------------------------------------------------- Test Platform
 
 if (Platform.isWindows()) {

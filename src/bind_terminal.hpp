@@ -29,6 +29,10 @@ namespace TerminalBinder {
             linenoiseHistoryAdd(value.c_str());
         }
 
+        void ClearScreen() {
+            linenoiseClearScreen();
+        }
+
         /**
          * Inspect method defines class meta information (methods, properties etc..)
          * You can define `inspect` method inline or specialize `duk::Inspect` for your class
@@ -41,6 +45,7 @@ namespace TerminalBinder {
             i.method("printKeyCodes", &Terminal::PrintKeycodes);
             i.method("historyAdd", &Terminal::HistoryAdd);
             i.method("prompt", &Terminal::Prompt);
+            i.method("clearScreen",&Terminal::ClearScreen);
         }
 
     };
