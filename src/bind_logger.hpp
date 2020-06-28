@@ -27,14 +27,6 @@ namespace LoggerBinder {
 			inline void Error(std::string str) { std::cout << termcolor::red << str << termcolor::reset << std::endl; }
 			inline void Bold(std::string str) { std::cout << termcolor::bold << termcolor::white << str << termcolor::reset << std::endl; }
 
-			void ansiStart() { ss.str(std::string()); ss << termcolor::colorize; }
-			void ansiColor() { ss << termcolor::green; }
-			void ansiPrint(std::string str) { ss << str; }
-			void ansiEnd() { std::cout << ss.str() << termcolor::reset << std::endl; } 
-			void ansiTest() {
-				std::cout << termcolor::green << "ANSI COUT TEST" << termcolor::reset << std::endl;
-			};
-
 		    /**
 		     * Inspect method defines class meta information (methods, properties etc..)
 		     * You can define `inspect` method inline or specialize `duk::Inspect` for your class
@@ -48,12 +40,6 @@ namespace LoggerBinder {
 		        i.method("warn", &Log::Warning); 
 		        i.method("error", &Log::Error); 
 		        i.method("bold", &Log::Bold); 
-
-		        i.method("ansiStart", &Log::ansiStart);
-		        i.method("ansiColor", &Log::ansiColor);
-		        i.method("ansiPrint", &Log::ansiPrint);
-		        i.method("ansiEnd", &Log::ansiEnd);
-		        i.method("ansiTest", &Log::ansiTest);
 		    }
 
 		private:
