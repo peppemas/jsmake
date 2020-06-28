@@ -20,6 +20,9 @@ namespace ProcessorBinder {
 
 			int Run(std::string str) 
 			{
+			    if (m_output) free(m_output);
+			    if (m_error) free(m_error);
+
 				std::vector<char *> args;
 				std::istringstream iss(str);
 
