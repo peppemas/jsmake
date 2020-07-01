@@ -15,7 +15,7 @@
 #if defined(_WIN32)
 #include <windows.h>
 #endif
-#if defined(__linux__)
+#if defined(__linux__) or defined(__APPLE__)
     #include <unistd.h>
     #include <sys/stat.h>
     #include <sys/types.h>
@@ -69,49 +69,35 @@ namespace FileSystemBinder {
             char NPath[MAX_PATH];
             GetCurrentDirectory(MAX_PATH, NPath);
             return std::string(NPath);
+#else
+            char NPath[PATH_MAX];
+            char* ptr = getcwd(NPath, PATH_MAX);
+            return std::string(NPath);
 #endif
-#if defined(__linux__)
-            return std::string(get_current_dir_name());
-#endif
-            // TODO: need implementation for other platforms
-
-            return 0;
         }
 
         int SetCurrentDir(std::string dir) {
 #if defined(_WIN32)
             return SetCurrentDirectory(dir.c_str());
-#endif
-#if defined(__linux__)
+#else
             return chdir(dir.c_str());
 #endif
-            // TODO: need implementation for other platforms
-
-            return -1;
         }
 
         int MakeDir(std::string dir) {
 #if defined(_WIN32)
             return CreateDirectoryA(dir.c_str(), 0);
-#endif
-#if defined(__linux__)
+#else
             return mkdir(dir.c_str(), 0);
 #endif
-            // TODO: need implementation for other platforms
-
-            return -1;
         }
 
         int RemoveDir(std::string dir) {
 #if defined(_WIN32)
             return RemoveDirectoryA(dir.c_str());
-#endif
-#if defined(__linux__)
+#else
             return rmdir(dir.c_str());
 #endif
-            // TODO: need implementation for other platforms
-
-            return -1;
         }
 
         int RemoveFile(std::string filename)
