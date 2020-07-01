@@ -11,6 +11,10 @@ namespace SystemBinder {
                 return std::string(getenv( env_var.c_str() ));
             }
 
+            void Exit(int code) {
+                exit(code);
+            }
+
             void SetEnv(std::string env_var, std::string env_value) {
 #if defined(_WIN32)
                 _putenv_s(env_var.c_str(), env_value.c_str());
@@ -29,6 +33,7 @@ namespace SystemBinder {
                 i.construct(&std::make_shared<System>);
                 i.method("env", &System::GetEnv);
                 i.method("setEnv", &System::SetEnv);
+                i.method("exit", &System::Exit);
             }
     };
 }
