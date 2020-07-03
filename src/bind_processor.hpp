@@ -40,7 +40,7 @@ namespace ProcessorBinder {
 				    m_error = std::string(reproc_strerror(result));
 					std::cout << "ERROR (" << result << "): " << m_error << std::endl;
 				} else {
-                    std::cout << output << std::endl;
+                    std::cout << output;
 				}
 
 				if (output) m_output = std::string(output);
