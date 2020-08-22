@@ -118,11 +118,13 @@ int main(int argc, const char** argv)
 		assert(jsargs);
 		if (extra_arguments != nullptr) {
 		    jsargs->SetCommandLine(extra_arguments);
-		    jsargs->AddOption('x',"extra","extra parameters for JS");
-            jsargs->AddOption('f',"fake","fake parameter");
-            jsargs->Parse();
+		    //jsargs->AddOption('x',"extra","extra parameters for JS");
+            //jsargs->AddOption('f',"fake","fake parameter");
+            //jsargs->Parse();
             //jsargs->GetOption('x');
 		}
+
+		std::cout << "@@@@@@@@@@@@@@@@ JSSCRIPT" << std::endl;
 
 		std::shared_ptr<JavascriptBinder::Javascript> jsscript;
 		ctx.getGlobal("Js", jsscript);

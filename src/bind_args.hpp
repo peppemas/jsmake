@@ -6,67 +6,57 @@ namespace ArgsBinder {
 
     class Args {
     private:
-        std::vector<const char *> args;
-        struct argparse argparse;
+        //std::vector<const char *> args;
+        std::map<std::string, std::string> args;
 
     public:
         explicit Args() {}
 
+        void addMap(std::string key, std::string value) {
+            args[key] = value;
+        }
+
         void SetCommandLine(const char *cmdline) {
-            std::cout << "Set Command Line " << cmdline << std::endl;
+            std::cout << ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Set Command Line " << cmdline << std::endl;
 
             std::string cmd(cmdline);
             std::istringstream iss(cmd);
 
             std::string token;
+            std::string key;
+            std::string value;
+            bool tokenFound = false;
             while (iss >> token) {
-                char *arg = new char[token.size() + 1];
-                copy(token.begin(), token.end(), arg);
-                arg[token.size()] = '\0';
-                args.push_back(arg);
+                // check if it's an option (starting with "-")
+                if (token.rfind("-",0) == 0) {
+                    if (tokenFound) {
+                        // we already a token found... so the previous one has no parameters
+                        addMap(key, "");
+                    }
+                    // set the new key
+                    key = token;
+                    tokenFound = true;
+                } else {
+                    if (tokenFound) {
+                        value = token;
+                        addMap(key, value);
+                        tokenFound = false;
+                    } else {
+                        // we have a value with a space between... update value of last key
+                        value = args[key] + " " + token;
+                        addMap(key, value);
+                    }
+                }
             }
-            args.push_back(0);
 
             std::cout << "argc " << args.size() << std::endl;
-            for (size_t i = 0; i < args.size(); i++) std::cout << args[i] << std::endl;
-        }
-
-        void AddOption(char optShort, std::string optLong, std::string description)
-        {
-            /*
-            argparse_option option;
-            argparse_js_option jsOption;
-
-            option.type = ARGPARSE_OPT_STRING;
-            option.value = (void *) jsOption.value;
-            option.short_name = optShort;
-            option.long_name = optLong.c_str();
-            option.help = description.c_str();
-            jsOption.option = option;
-
-            options.push_back(jsOption);
-            */
-        }
-
-        void Parse() {
-            /*
-            std::vector<argparse_option *> tmpOptions;
-            for (size_t i = 0; i < options.size(); i++) tmpOptions.push_back(options[i].option);
-
-            argparse_init(&argparse, tmpOptions[0], 0, 0);
-            argparse_parse(&argparse, (int)args.size(), &args[0]);
-             */
+            for (std::map<std::string, std::string>::const_iterator it = args.begin(); it != args.end(); ++it) {
+                std::cout << "Key: " << it->first << " Value: " << it->second << std::endl;
+            }
         }
 
         void GetOption(char optShort, std::string optLong, std::string description)
         {
-            const char *option_value;
-            struct argparse_option options[] = {
-                    OPT_STRING(optShort, optLong.c_str(), &option_value, description.c_str(), NULL, 0, 0),
-                    OPT_END()
-            };
-            argparse_init(&argparse, options, 0, 0);
-            argparse_parse(&argparse, (int)args.size(), &args[0]);
         }
 
         /**
