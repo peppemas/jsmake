@@ -1,12 +1,9 @@
 #pragma once
 
-#include <argparse.h>
-
 namespace ArgsBinder {
 
     class Args {
     private:
-        //std::vector<const char *> args;
         std::map<std::string, std::string> args;
 
     public:
@@ -17,7 +14,7 @@ namespace ArgsBinder {
         }
 
         void SetCommandLine(const char *cmdline) {
-            std::cout << ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Set Command Line " << cmdline << std::endl;
+            //std::cout << ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Set Command Line " << cmdline << std::endl;
 
             std::string cmd(cmdline);
             std::istringstream iss(cmd);
@@ -49,14 +46,29 @@ namespace ArgsBinder {
                 }
             }
 
+            /*
             std::cout << "argc " << args.size() << std::endl;
             for (std::map<std::string, std::string>::const_iterator it = args.begin(); it != args.end(); ++it) {
                 std::cout << "Key: " << it->first << " Value: " << it->second << std::endl;
             }
+            */
         }
 
-        void GetOption(char optShort, std::string optLong, std::string description)
+        std::string GetOption(std::string option)
         {
+            std::map<std::string,std::string>::iterator it = args.find(option);
+            if (it != args.end())
+                return it->second;
+
+            return std::string("");
+        }
+
+        bool Exists(std::string option)
+        {
+            std::map<std::string,std::string>::iterator it = args.find(option);
+            if (it != args.end())
+                return true;
+            return false;
         }
 
         /**
@@ -66,6 +78,8 @@ namespace ArgsBinder {
         template<class Inspector>
         static void inspect(Inspector &i) {
             i.construct(&std::make_shared<Args>);
+            i.method("get", &Args::GetOption);
+            i.method("exists", &Args::Exists);
         }
     };
 
