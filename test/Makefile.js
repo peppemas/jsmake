@@ -8,8 +8,15 @@
 
 var platform = "You are running on ";
 
-// ----------------------------------------------------------------------- Test Processor
+function title(str)
+{
+	Logger.info("------------------------------------------");
+	Logger.info(str);
+	Logger.info("------------------------------------------");
+}
 
+// ----------------------------------------------------------------------- Test Processor
+title("Test Processor");
 Logger.info("Who Am I ???");
 var proc_result = Processor.run("whoami");
 var proc_output = Processor.getOutput();
@@ -18,9 +25,18 @@ proc_result = Processor.run("thisprocessnotexists");
 proc_output = Processor.getError();
 Logger.warn("["+ proc_result + "]: " + proc_output);
 
+// ----------------------------------------------------------------------- Test Args
+title("Test Args");
+if (Args.exists("-o")) {
+	Logger.info("Parameter -o exists.");
+	var value = Args.get("-o");
+	Logger.info("Value of -o :" + value);
+} else {
+	Logger.error("Parameter -o not exists.");
+}
 
 // ----------------------------------------------------------------------- Test Platform
-
+title("Test Platform");
 if (Platform.isWindows()) {
 	platform += "Windows"; 
 	if (Platform.isWindows64()) {
@@ -34,11 +50,12 @@ if (Platform.isWindows()) {
 Logger.info(platform);
 
 // ----------------------------------------------------------------------- Test Collect Files
-
-var FILES = Directory.collectAllFiles(".",true,false); 
+title("Test Collect Files");
+var FILES = Directory.collectAllFiles(".",true,false);
 Logger.info("This directory contains " + FILES.length + " file(s)");
 
 // ----------------------------------------------------------------------- Test Colors
+title("Test Terminal Colors");
 
 Logger.blank();
 Logger.info("==================================================");
@@ -48,6 +65,7 @@ Logger.bold("This is a Bold Message");
 Logger.info("==================================================");
 
 // ----------------------------------------------------------------------- Test Template Engine
+title("Test Template Engine");
 
 var template_vars = { "name":"John", "surname": "Smith" }; 
 var template_vars2 = {}; 
@@ -83,6 +101,7 @@ var template_result7 = Template.render("{% if \"Gaia\" in guests %}I found Gaia{
 Logger.info(template_result7);
 
 // ----------------------------------------------------------------------- Directory Operations
+title("Test Directory Operations");
 
 Logger.info("The current Directory is: ");
 var currentDir = Directory.getCurrent();
@@ -102,6 +121,7 @@ Logger.warn("Delete directory ciccio");
 Directory.remove("./ciccio");
 
 // ----------------------------------------------------------------------- File Operations
+title("Test File Operations");
 
 Logger.bold("Write a file");
 Directory.writeTextFile("ciccio.txt","this is the content for ciccio.txt:\nHello World!!!");
@@ -131,6 +151,7 @@ if (!Directory.fileExists("not_exists.txt")) {
 }
 
 // ----------------------------------------------------------------------- Include
+title("Test Include");
 
 Directory.setCurrent("../test/");
 Js.include("test_include.js");
@@ -138,12 +159,14 @@ test_include();
 Directory.setCurrent(currentDir);
 
 // ----------------------------------------------------------------------- System
+title("Test System");
 
 var ENVPATH = System.env("PATH");
 Logger.info("Current Environment PATH:");
 Logger.info(ENVPATH);
 
 // ----------------------------------------------------------------------- Terminal
+title("Test Terminal");
 
 var name = Terminal.prompt("Please enter your name: ");
 Logger.warn("Hello  " + name + "!" );
