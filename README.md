@@ -7,6 +7,15 @@ This is our custom project builder used to compile the Victrix 3D engine and our
 ```
 Js.include("other.js");  // include a jsmake javascript
 ```
+**Args**
+
+jsmake.exe -a "-o myvalue"
+
+```
+if (Args.exists("-o")) {    // check if value -o exists
+    var value = Args.get("-o");  // get the value of -o
+}
+```
 
 **Logging**
 ```
