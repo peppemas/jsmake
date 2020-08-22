@@ -12,7 +12,7 @@ Js.include("other.js");  // include a jsmake javascript
 jsmake.exe -a "-o myvalue"
 
 ```
-if (Args.exists("-o")) {    // check if value -o exists
+if (Args.exists("-o")) {    // check if option -o exists
     var value = Args.get("-o");  // get the value of -o
 }
 ```
