@@ -45,13 +45,6 @@ namespace ArgsBinder {
                     }
                 }
             }
-
-            /*
-            std::cout << "argc " << args.size() << std::endl;
-            for (std::map<std::string, std::string>::const_iterator it = args.begin(); it != args.end(); ++it) {
-                std::cout << "Key: " << it->first << " Value: " << it->second << std::endl;
-            }
-            */
         }
 
         std::string GetOption(std::string option)
@@ -71,6 +64,14 @@ namespace ArgsBinder {
             return false;
         }
 
+        void Debug()
+        {
+            std::cout << "argc " << args.size() << std::endl;
+            for (std::map<std::string, std::string>::const_iterator it = args.begin(); it != args.end(); ++it) {
+                std::cout << "Key: " << it->first << " Value: " << it->second << std::endl;
+            }
+        }
+
         /**
          * Inspect method defines class meta information (methods, properties etc..)
          * You can define `inspect` method inline or specialize `duk::Inspect` for your class
@@ -80,6 +81,7 @@ namespace ArgsBinder {
             i.construct(&std::make_shared<Args>);
             i.method("get", &Args::GetOption);
             i.method("exists", &Args::Exists);
+            i.method("debug", &Args::Debug);
         }
     };
 
