@@ -235,7 +235,7 @@ namespace FileSystemBinder {
             i.method("readLineByLine",&Directory::ReadLineByLine);
             i.method("writeTextFile",&Directory::WriteTextFile);
             i.method("removeFile",&Directory::RemoveFile);
-            i.method("fileExists",&Directory::FileExists);
+            i.method("exists",&Directory::FileExists);
             i.method("fileTime",&Directory::GetFileTime);
         }
 

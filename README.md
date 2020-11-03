@@ -29,6 +29,8 @@ Logger.bold("bold!");
 ```
 Directory.getCurrent();  // get current directory
 Directory.setCurrent("/test"); // set the current directory
+Directory.exists("/test") // return true if directory exists
+Directory.exists("/test/myfile.txt") // return true if file exists
 ```
 
 **Processor**
