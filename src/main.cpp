@@ -35,6 +35,7 @@ int main(int argc, const char** argv)
 	duk::Context ctx;
 
 	try {
+	    const char *VERSION = "1.5.0";
 
 		const char *input_filename = nullptr;
 		const char *extra_arguments = nullptr;
@@ -78,7 +79,7 @@ int main(int argc, const char** argv)
 		ctx.registerClass<SystemBinder::System>();
 		ctx.registerClass<TerminalBinder::Terminal>();
 
-		ctx.evalStringNoRes("var Logger = new LoggerBinder.Log()");
+		ctx.evalStringNoRes("var Log = new LoggerBinder.Log()");
 		ctx.evalStringNoRes("var Processor = new ProcessorBinder.Process()");
 		ctx.evalStringNoRes("var Platform = new PlatformBinder.Info()");
 		ctx.evalStringNoRes("var Directory = new FileSystemBinder.Directory()");
@@ -89,9 +90,9 @@ int main(int argc, const char** argv)
         ctx.evalStringNoRes("var System = new SystemBinder.System()");
         ctx.evalStringNoRes("var Terminal = new TerminalBinder.Terminal()");
 
-		std::shared_ptr<LoggerBinder::Log> logger;
-		ctx.getGlobal("Logger", logger);
-		assert(logger);
+		std::shared_ptr<LoggerBinder::Log> log;
+		ctx.getGlobal("Log", log);
+		assert(log);
 
 		std::shared_ptr<ProcessorBinder::Process> processor;
 		ctx.getGlobal("Processor", processor);

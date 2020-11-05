@@ -1,5 +1,5 @@
 function test_include() {
-    Logger.info("===================================");
-    Logger.info("test_include() successfully called.");
-    Logger.info("===================================");
+    Log.info("===================================");
+    Log.info("test_include() successfully called.");
+    Log.info("===================================");
 }
