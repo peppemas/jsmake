@@ -14,7 +14,12 @@ namespace TemplateBinder {
 
 			std::string Render(std::string str_template, std::string json_data) {
 				auto data = json::parse(json_data);
-				std::string result = inja::render(str_template, data);
+
+				inja::Environment env;
+                env.set_trim_blocks(true);
+                env.set_lstrip_blocks(true);
+
+				std::string result = env.render(str_template, data);
 				return result;
 			}
 
