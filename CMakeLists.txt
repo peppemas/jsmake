@@ -3,6 +3,10 @@ cmake_minimum_required(VERSION 2.8.11)
 project(jsmake)
 enable_language(CXX)
 
+SET(CMAKE_CXX_STANDARD 14)
+SET(CMAKE_CXX_STANDARD_REQUIRED ON)
+SET(CMAKE_CXX_EXTENSIONS OFF)
+
 SET(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
 SET(BUILD_SHARED_LIBS OFF)
 if (NOT APPLE)
@@ -17,6 +21,11 @@ else()
 endif()
 
 set(CMAKE_C_FLAGS "-D IW_64")
+
+if(MSVC)
+  add_compile_options(/permissive- /utf-8 /Zc:__cplusplus)
+  add_definitions(-DNOMINMAX)
+endif()
 
 set(DUKTAPE_SOURCE "third_parties/duktape-2.5.0/src/*.c")
 set(DUKTAPE_HEADERS "third_parties/duktape-2.5.0/src/*.h")
