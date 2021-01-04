@@ -144,7 +144,7 @@ Log.info("Read the text file");
 var content = Directory.readTextFile("ciccio.txt");
 Log.info(content);
 
-Log.info("Read the file line by line");
+title("Read the file line by line");
 var arrayContent = Directory.readLineByLine("ciccio.txt");
 Log.warn("the file contains: " + arrayContent.length + " lines.");
 Log.info("add a line between...");
@@ -154,6 +154,15 @@ if (arrayContent.length === 2) {
 Log.info("now the array contains " + arrayContent.length + " lines.");
 Log.info("the content is now:")
 Log.warn(arrayContent.join(""));
+
+title("Read the file line by line (test #2)");
+arrayContent = Directory.readLineByLine("../test/test_include.js");
+for (var i=0; i<arrayContent.length; i++) {
+	if (arrayContent[i] === "function test_include() {") {
+		Log.warn("line found!");
+	}
+	Log.info(arrayContent[i]);
+}
 
 if (Directory.exists("../test/test_include.js")) {
 	Log.info("test_include.js exists");
