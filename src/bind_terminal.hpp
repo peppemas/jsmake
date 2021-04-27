@@ -20,7 +20,7 @@ namespace TerminalBinder {
         }
 
         std::string Prompt(std::string prompt) {
-            if (m_line != NULL) linenoiseFree(m_line);
+            if (m_line != nullptr) linenoiseFree(m_line);
             m_line = linenoise(prompt.c_str());
             return std::string(m_line);
         }

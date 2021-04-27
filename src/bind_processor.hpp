@@ -32,7 +32,7 @@ namespace ProcessorBinder {
 				}
 				args.push_back(0);
 
-				char* output = NULL;
+				char* output = nullptr;
                 reproc_sink sinkOut = reproc_sink_string(&output);
 
 				int result = reproc_run_ex(&args[0], reproc_options{ 0 }, sinkOut, sinkOut);

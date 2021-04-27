@@ -3,7 +3,6 @@
 #include <fstream>
 
 #include <argparse.h>
-#include <duktape.h>
 
 #include <bind_logger.hpp>
 #include <bind_processor.hpp>
@@ -54,8 +53,8 @@ int main(int argc, const char** argv)
 
 	    struct argparse_option options[] = {
 	        OPT_HELP(),
-	        OPT_STRING('i', "input", &input_filename, "input filename (default Makefile.js)", NULL, 0, 0),
-	        OPT_STRING('a', "arguments", &extra_arguments, "pass arguments to the script", NULL, 0, 0),
+	        OPT_STRING('i', "input", &input_filename, "input filename (default Makefile.js)", nullptr, 0, 0),
+	        OPT_STRING('a', "arguments", &extra_arguments, "pass arguments to the script", nullptr, 0, 0),
 	        OPT_END(),
 	    };
 		static const char *const usages[] = {

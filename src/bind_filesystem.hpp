@@ -50,7 +50,7 @@ namespace FileSystemBinder {
                     if ((_file.is_dir) && (recursive)) {
                         RecursiveCollect(vv, _file.path, ext, recursive, filenameOnly);
                     }
-                    if ((ext == NULL) || (strcmp(ext->c_str(), _file.ext) == 0)) {
+                    if ((ext == nullptr) || (strcmp(ext->c_str(), _file.ext) == 0)) {
                         if (filenameOnly) {
                             vv->push_back(std::string(_file.name));
                         } else {
@@ -128,7 +128,7 @@ namespace FileSystemBinder {
 
         std::vector<std::string> CollectAllFiles(std::string dir, bool recursive, bool filenameOnly) {
             std::vector<std::string> files;
-            RecursiveCollect(&files, dir, NULL, recursive, filenameOnly);
+            RecursiveCollect(&files, dir, nullptr, recursive, filenameOnly);
             return files;
         }
 
@@ -146,7 +146,7 @@ namespace FileSystemBinder {
             std::vector<std::string> filtered;
 
             if (ext.compare("") == 0) {
-                RecursiveCollect(&files, dir, NULL, recursive, filenameOnly);
+                RecursiveCollect(&files, dir, nullptr, recursive, filenameOnly);
             } else {
                 RecursiveCollect(&files, dir, &ext, recursive, filenameOnly);
             }
