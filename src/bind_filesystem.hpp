@@ -25,7 +25,7 @@ namespace FileSystemBinder {
 
     class Directory {
     public:
-        explicit Directory() {}
+        explicit Directory() = default;
 
         /**
          * @brief collect files recursively

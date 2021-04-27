@@ -19,7 +19,7 @@ namespace LoggerBinder {
 
 	class Log {
 		public:
-			explicit Log() {}
+			explicit Log() = default;
 
 			inline void Blank() { std::cout << std::endl; }
 			inline void Info(std::string str) { std::cout << str << std::endl; }

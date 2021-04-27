@@ -74,7 +74,7 @@ include_directories(third_parties/argparse-master)
 include_directories(third_parties/termcolor/include)
 include_directories(third_parties/linenoise-ng/include)
 
-add_executable(${PROJECT_NAME} ${source_files} ${header_files} ${inl_files})
+add_executable(${PROJECT_NAME} ${source_files} ${header_files} ${inl_files} src/bind_ftxui.hpp)
 set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 14)
 
 target_compile_definitions(jsmake PRIVATE WIN32_LEAN_AND_MEAN)

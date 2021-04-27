@@ -7,7 +7,7 @@ namespace ArgsBinder {
         std::map<std::string, std::string> args;
 
     public:
-        explicit Args() {}
+        explicit Args() = default;
 
         void addMap(std::string key, std::string value) {
             args[key] = value;
