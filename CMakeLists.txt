@@ -27,8 +27,8 @@ if(MSVC)
   add_definitions(-DNOMINMAX)
 endif()
 
-set(DUKTAPE_SOURCE "third_parties/duktape-2.5.0/src/*.c")
-set(DUKTAPE_HEADERS "third_parties/duktape-2.5.0/src/*.h")
+set(DUKTAPE_SOURCE "third_parties/duktape-2.6.0/src/*.c")
+set(DUKTAPE_HEADERS "third_parties/duktape-2.6.0/src/*.h")
 
 set(DUKTAPE_CPP_SOURCE "third_parties/duktape-cpp/duktape-cpp/*.cpp" "third_parties/duktape-cpp/duktape-cpp/*.inl")
 set(DUKTAPE_CPP_HEADERS "third_parties/duktape-cpp/duktape-cpp/*.h")
@@ -65,7 +65,7 @@ file(GLOB_RECURSE source_files "src/*.cpp"
 file(GLOB_RECURSE header_files "src/*.h")
 
 include_directories(src)
-include_directories(third_parties/duktape-2.5.0/src)
+include_directories(third_parties/duktape-2.6.0/src)
 include_directories(third_parties/duktape-cpp)
 include_directories(third_parties/reproc/include)
 include_directories(third_parties/inja)
