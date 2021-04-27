@@ -1,5 +1,6 @@
-# A cross platform project builder based on javascript #
-This is our custom project builder used to compile the Victrix 3D engine and our games. test
+# A cross platform maker based on javascript #
+
+A general purpose maker based on javascript. Actually it is used internally to build our own 3D Engine.
 
 # Cheatsheet #
 
