@@ -13,7 +13,6 @@
 #include <bind_javascript.hpp>
 #include <bind_system.hpp>
 #include <bind_terminal.hpp>
-#include <bind_ftxui.hpp>
 
 #define CUTE_FILES_IMPLEMENTATION
 
@@ -27,7 +26,6 @@ DUK_CPP_DEF_CLASS_NAME(ArgsBinder::Args);
 DUK_CPP_DEF_CLASS_NAME(JavascriptBinder::Javascript);
 DUK_CPP_DEF_CLASS_NAME(SystemBinder::System);
 DUK_CPP_DEF_CLASS_NAME(TerminalBinder::Terminal);
-DUK_CPP_DEF_CLASS_NAME(FTXUIBinder::UI);
 
 //using namespace argparse;
 
@@ -90,7 +88,6 @@ int main(int argc, const char** argv)
 		ctx.evalStringNoRes("var Js = new JavascriptBinder.Javascript()");
         ctx.evalStringNoRes("var System = new SystemBinder.System()");
         ctx.evalStringNoRes("var Terminal = new TerminalBinder.Terminal()");
-        ctx.evalStringNoRes("var Gui = new FTXUIBinder.UI()");
 
 		std::shared_ptr<LoggerBinder::Log> log;
 		ctx.getGlobal("Log", log);
@@ -135,10 +132,6 @@ int main(int argc, const char** argv)
         std::shared_ptr<TerminalBinder::Terminal> terminal;
         ctx.getGlobal("Terminal", terminal);
         assert(terminal);
-
-        std::shared_ptr<FTXUIBinder::UI> gui;
-        ctx.getGlobal("Gui", gui);
-        assert(gui);
 
         if (input_filename == nullptr) {
              input_filename = "Makefile.js";

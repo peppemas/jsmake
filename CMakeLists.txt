@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.11)
+cmake_minimum_required(VERSION 3.0)
 
 project(jsmake)
 enable_language(CXX)
@@ -33,9 +33,6 @@ set(DUKTAPE_HEADERS "third_parties/duktape-2.6.0/src/*.h")
 set(DUKTAPE_CPP_SOURCE "third_parties/duktape-cpp/duktape-cpp/*.cpp" "third_parties/duktape-cpp/duktape-cpp/*.inl")
 set(DUKTAPE_CPP_HEADERS "third_parties/duktape-cpp/duktape-cpp/*.h")
 
-set(FTXUI_CPP_SOURCE "third_parties/ftxui-master/src/ftxui/*.cpp")
-set(FTXUI_CPP_HEADERS "third_parties/ftxui-master/include/ftxui/*.h")
-
 set(CUTE_HEADERS "third_parties/cute_headers/*.h")
 
 set(REPROC_SOURCE 
@@ -64,7 +61,6 @@ file(GLOB_RECURSE source_files "src/*.cpp"
           ${REPROC_SOURCE}
           ${ARGPARSE_SOURCE}
           ${LINENOISE_NG_SOURCE}
-          ${FTXUI_CPP_SOURCE}
           )
 file(GLOB_RECURSE header_files "src/*.h")
 
@@ -77,9 +73,8 @@ include_directories(third_parties/cute_headers)
 include_directories(third_parties/argparse-master)
 include_directories(third_parties/termcolor/include)
 include_directories(third_parties/linenoise-ng/include)
-include_directories(third_parties/ftxui-master/include)
 
-add_executable(${PROJECT_NAME} ${source_files} ${header_files} ${inl_files} src/bind_ftxui.hpp)
+add_executable(${PROJECT_NAME} ${source_files} ${header_files} ${inl_files})
 set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 14)
 
 target_compile_definitions(jsmake PRIVATE WIN32_LEAN_AND_MEAN)
