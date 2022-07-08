@@ -55,6 +55,7 @@ int main(int argc, const char** argv)
 	        OPT_HELP(),
 	        OPT_STRING('i', "input", &input_filename, "input filename (default Makefile.js)", nullptr, 0, 0),
 	        OPT_STRING('a', "arguments", &extra_arguments, "pass arguments to the script", nullptr, 0, 0),
+            OPT_STRING('v', "version", nullptr, "show the version", nullptr, 0, 0),
 	        OPT_END(),
 	    };
 		static const char *const usages[] = {
