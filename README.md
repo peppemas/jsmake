@@ -8,6 +8,7 @@ A general purpose maker based on javascript. Actually it is used internally to b
 ```
 Js.include("other.js");  // include a jsmake javascript
 ```
+
 **Args**
 
 jsmake.exe -a "-o myvalue"
@@ -63,9 +64,9 @@ Path.getExtension("/home/file.txt");    // return "txt"
 
 **Processor**
 ```
-var res = Processor.run("whoami");  // execute a command
-Processor.getOutput();  // get last Processor.run() output
-Processor.getError();   // get last Processor.run() error
+var res = Processor.run("whoami");      // execute a command
+Processor.getOutput();                  // get last Processor.run() output
+Processor.getError();                   // get last Processor.run() error
 ```
 
 **Terminal**

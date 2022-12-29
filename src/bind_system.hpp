@@ -8,7 +8,10 @@ namespace SystemBinder {
             explicit System() {}
 
             std::string GetEnv(std::string env_var) {
-                return std::string(getenv( env_var.c_str() ));
+                if (getenv(env_var.c_str()) != nullptr) {
+                    return std::string(getenv( env_var.c_str() ));
+                }
+                return "";
             }
 
             void Exit(int code) {
