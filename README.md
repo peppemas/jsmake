@@ -2,6 +2,17 @@
 
 A general purpose maker based on javascript. Actually it is used internally to build my own 3D Engine.
 
+# Compiling #
+
+** Linux **
+
+```bash
+mkdir bin
+cd bin
+cmake .. -DCMAKE_CXX_COMPILER=g++
+make
+```
+
 # Cheatsheet #
 
 **General**

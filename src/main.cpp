@@ -29,6 +29,11 @@ DUK_CPP_DEF_CLASS_NAME(TerminalBinder::Terminal);
 
 //using namespace argparse;
 
+int argparse_version_cb(struct argparse *self, const struct argparse_option *option) {
+    std::cout << "VERSION 2022.07.00" << std::endl;
+    exit(0);
+};
+
 int main(int argc, const char** argv)
 {
 	duk::Context ctx;
@@ -55,6 +60,7 @@ int main(int argc, const char** argv)
 	        OPT_HELP(),
 	        OPT_STRING('i', "input", &input_filename, "input filename (default Makefile.js)", nullptr, 0, 0),
 	        OPT_STRING('a', "arguments", &extra_arguments, "pass arguments to the script", nullptr, 0, 0),
+            OPT_BOOLEAN('v', "version", nullptr, "show the version", argparse_version_cb, 0, OPT_NONEG),
 	        OPT_END(),
 	    };
 		static const char *const usages[] = {
