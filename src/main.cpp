@@ -39,7 +39,7 @@ int main(int argc, const char** argv)
 	duk::Context ctx;
 
 	try {
-	    const char *VERSION = "2.0.1";
+	    const char *VERSION = "2.0.2";
 
 		const char *input_filename = nullptr;
 		const char *extra_arguments = nullptr;

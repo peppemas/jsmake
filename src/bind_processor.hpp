@@ -8,6 +8,7 @@
 
 #include <duktape-cpp/DuktapeCpp.h>
 #include <reproc/run.h>
+#include <cstring>
 
 namespace ProcessorBinder {
 
@@ -20,22 +21,58 @@ namespace ProcessorBinder {
 
 			int Run(std::string str) 
 			{
-				std::vector<char *> args;
-				std::istringstream iss(str);
+                std::vector<std::string> tokens;
+                std::string current_token;
+                bool inside_quotes = false;
 
-				std::string token;
-				while(iss >> token) {
-				  char *arg = new char[token.size() + 1];
-				  copy(token.begin(), token.end(), arg);
-				  arg[token.size()] = '\0';
-				  args.push_back(arg);
-				}
-				args.push_back(0);
+                for (char c : str) {
+                    if (c == ' ' && !inside_quotes) {
+                        if (!current_token.empty()) {
+                            tokens.push_back(current_token);
+                            current_token.clear();
+                        }
+                    } else if (c == '\"') {
+                        if (inside_quotes) {
+                            if (!current_token.empty()) {
+                                tokens.push_back(current_token + '\"'); // Include double quotes
+                                current_token.clear();
+                            }
+                            inside_quotes = false;
+                        } else {
+                            inside_quotes = true;
+                            current_token += c;
+                        }
+                    } else {
+                        current_token += c;
+                    }
+                }
 
-				char* output = nullptr;
+                if (!current_token.empty()) {
+                    tokens.push_back(current_token);
+                }
+
+                // Create a vector to hold char pointers
+                std::vector<char*> args;
+                // Convert each std::string to a char* and store in the charPointerVector
+                for (const std::string& str : tokens) {
+                    char* cstr = new char[str.length() + 1]; // +1 for the null terminator
+                    std::strcpy(cstr, str.c_str());
+                    args.push_back(cstr);
+                }
+
+                /*
+                // print the char* vector
+                std::cout << "====================" << std::endl;
+                for (char* cstr : args) {
+                    std::cout << cstr << std::endl;
+                }
+                std::cout << "====================" << std::endl;
+                */
+
+                char* output = nullptr;
                 reproc_sink sinkOut = reproc_sink_string(&output);
 
-				int result = reproc_run_ex(&args[0], reproc_options{ 0 }, sinkOut, sinkOut);
+				int result = reproc_run_ex(&args[0], reproc_options{0} , sinkOut, sinkOut);
 				if (result < 0) {
 				    m_error = std::string(reproc_strerror(result));
 					std::cout << "ERROR (" << result << "): " << m_error << std::endl;
