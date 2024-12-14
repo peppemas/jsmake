@@ -1,9 +1,9 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.9)
 
 project(jsmake)
 enable_language(CXX)
 
-SET(CMAKE_CXX_STANDARD 14)
+SET(CMAKE_CXX_STANDARD 17)
 SET(CMAKE_CXX_STANDARD_REQUIRED ON)
 SET(CMAKE_CXX_EXTENSIONS OFF)
 
@@ -21,6 +21,18 @@ else()
 endif()
 
 set(CMAKE_C_FLAGS "-D IW_64")
+
+# Add linker flags to resolve image base issue
+SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,--image-base=0x400000")
+
+# Explicitly set architecture
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -m64")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -m64")
+
+# Add the -Wattributes flag to the compiler options
+if(CMAKE_C_COMPILER_ID STREQUAL "GNU" OR CMAKE_C_COMPILER_ID MATCHES "Clang")
+    add_compile_options(-Wattributes)
+endif()
 
 if(MSVC)
   add_compile_options(/permissive- /utf-8 /Zc:__cplusplus)
@@ -56,11 +68,11 @@ set(ARGPARSE_SOURCE "third_parties/argparse-master/argparse.c")
 set(LINENOISE_NG_SOURCE "third_parties/linenoise-ng/src/*.cpp")
 
 file(GLOB_RECURSE source_files "src/*.cpp"
-          ${DUKTAPE_SOURCE}
-          ${DUKTAPE_CPP_SOURCE}
-          ${REPROC_SOURCE}
-          ${ARGPARSE_SOURCE}
-          ${LINENOISE_NG_SOURCE}
+            ${DUKTAPE_SOURCE}
+            ${DUKTAPE_CPP_SOURCE}
+            ${REPROC_SOURCE}
+            ${ARGPARSE_SOURCE}
+            ${LINENOISE_NG_SOURCE}
           )
 file(GLOB_RECURSE header_files "src/*.h")
 
@@ -73,6 +85,7 @@ include_directories(third_parties/cute_headers)
 include_directories(third_parties/argparse-master)
 include_directories(third_parties/termcolor/include)
 include_directories(third_parties/linenoise-ng/include)
+include_directories(third_parties/cpp-httplib-0.18.3)
 
 add_executable(${PROJECT_NAME} ${source_files} ${header_files} ${inl_files})
 set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 14)

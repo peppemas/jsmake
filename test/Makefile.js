@@ -193,3 +193,13 @@ title("Test Terminal");
 
 var name = Terminal.prompt("Please enter your name: ");
 Log.warn("Hello  " + name + "!" );
+
+// ----------------------------------------------------------------------- HttpClient
+title("Test HttpClient");
+
+var status = HttpClient.download("http://www.google.com/", "D:/test.html");
+if (status === 200) {
+	Log.info("Downloaded file test.html");
+} else {
+	Log.error("Error downloading file");
+}

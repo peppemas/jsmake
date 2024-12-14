@@ -13,6 +13,7 @@
 #include <bind_javascript.hpp>
 #include <bind_system.hpp>
 #include <bind_terminal.hpp>
+#include <bind_http.hpp>
 
 #define CUTE_FILES_IMPLEMENTATION
 
@@ -26,11 +27,12 @@ DUK_CPP_DEF_CLASS_NAME(ArgsBinder::Args);
 DUK_CPP_DEF_CLASS_NAME(JavascriptBinder::Javascript);
 DUK_CPP_DEF_CLASS_NAME(SystemBinder::System);
 DUK_CPP_DEF_CLASS_NAME(TerminalBinder::Terminal);
+DUK_CPP_DEF_CLASS_NAME(HttpBinder::HttpClient);
 
 //using namespace argparse;
 
 int argparse_version_cb(struct argparse *self, const struct argparse_option *option) {
-    std::cout << "VERSION 2022.07.00" << std::endl;
+    std::cout << "VERSION 2024.12.00" << std::endl;
     exit(0);
 };
 
@@ -39,10 +41,9 @@ int main(int argc, const char** argv)
 	duk::Context ctx;
 
 	try {
-	    const char *VERSION = "2.0.2";
-
 		const char *input_filename = nullptr;
 		const char *extra_arguments = nullptr;
+		const char *execute_arguments = nullptr;
 
 		const char *logo = "\n"
 		"	     @@@   @@@@@@   @@@@@@@@@@    @@@@@@   @@@  @@@  @@@@@@@@\n"
@@ -60,6 +61,7 @@ int main(int argc, const char** argv)
 	        OPT_HELP(),
 	        OPT_STRING('i', "input", &input_filename, "input filename (default Makefile.js)", nullptr, 0, 0),
 	        OPT_STRING('a', "arguments", &extra_arguments, "pass arguments to the script", nullptr, 0, 0),
+            OPT_STRING('x', "execute", &execute_arguments, "execute a command directly from command line", nullptr, 0, 0),
             OPT_BOOLEAN('v', "version", nullptr, "show the version", argparse_version_cb, 0, OPT_NONEG),
 	        OPT_END(),
 	    };
@@ -83,6 +85,7 @@ int main(int argc, const char** argv)
 		ctx.registerClass<JavascriptBinder::Javascript>();
 		ctx.registerClass<SystemBinder::System>();
 		ctx.registerClass<TerminalBinder::Terminal>();
+		ctx.registerClass<HttpBinder::HttpClient>();
 
 		ctx.evalStringNoRes("var Log = new LoggerBinder.Log()");
 		ctx.evalStringNoRes("var Processor = new ProcessorBinder.Process()");
@@ -94,6 +97,7 @@ int main(int argc, const char** argv)
 		ctx.evalStringNoRes("var Js = new JavascriptBinder.Javascript()");
         ctx.evalStringNoRes("var System = new SystemBinder.System()");
         ctx.evalStringNoRes("var Terminal = new TerminalBinder.Terminal()");
+        ctx.evalStringNoRes("var HttpClient = new HttpBinder.HttpClient()");
 
 		std::shared_ptr<LoggerBinder::Log> log;
 		ctx.getGlobal("Log", log);
@@ -139,18 +143,28 @@ int main(int argc, const char** argv)
         ctx.getGlobal("Terminal", terminal);
         assert(terminal);
 
-        if (input_filename == nullptr) {
-             input_filename = "Makefile.js";
-		}
-		int result = cf_file_exists(input_filename);
-		if (result == 0) {
-			std::cout << "File '" << input_filename << "' not found." << std::endl;
-			exit(1);
-		}
+        std::shared_ptr<HttpBinder::HttpClient> httpClient;
+        ctx.getGlobal("HttpClient", httpClient);
+        assert(httpClient);
 
-		std::ifstream t(input_filename);
-		std::string code((std::istreambuf_iterator<char>(t)), std::istreambuf_iterator<char>());
-
+        // execute a command directly from command line or a file
+        std::string code;
+        if (execute_arguments != nullptr) {
+            std::string content(execute_arguments);
+            code = content;
+        } else {
+            if (input_filename == nullptr) {
+                input_filename = "Makefile.js";
+            }
+            int result = cf_file_exists(input_filename);
+            if (result == 0) {
+                std::cout << "File '" << input_filename << "' not found." << std::endl;
+                exit(1);
+            }
+            std::ifstream t(input_filename);
+            std::string content((std::istreambuf_iterator<char>(t)), std::istreambuf_iterator<char>());
+            code = content;
+        }
 		ctx.evalStringNoRes(code.c_str());
 
 	} catch (duk::ScriptEvaluationExcepton &e) {
