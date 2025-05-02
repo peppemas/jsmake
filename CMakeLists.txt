@@ -23,7 +23,9 @@ endif()
 set(CMAKE_C_FLAGS "-D IW_64")
 
 # Add linker flags to resolve image base issue
-SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,--image-base=0x400000")
+if(WIN32)
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} --image-base=0x400000")
+endif()
 
 # Explicitly set architecture
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -m64")
@@ -85,7 +87,7 @@ include_directories(third_parties/cute_headers)
 include_directories(third_parties/argparse-master)
 include_directories(third_parties/termcolor/include)
 include_directories(third_parties/linenoise-ng/include)
-include_directories(third_parties/cpp-httplib-0.18.3)
+include_directories(third_parties/cpp-httplib-0.20.0)
 
 add_executable(${PROJECT_NAME} ${source_files} ${header_files} ${inl_files})
 set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 14)
