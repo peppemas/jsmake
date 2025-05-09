@@ -49,10 +49,10 @@ Platform.isIOS()        // return true if running on IOS platform
 
 **Logging**
 ```
-Logger.info("info log");  
-Logger.warn("warning log"); 
-Logger.error("error log");
-Logger.bold("bold!");
+Log.info("info log");  
+Log.warn("warning log"); 
+Log.error("error log");
+Log.bold("bold!");
 ```
 
 **Directory**
