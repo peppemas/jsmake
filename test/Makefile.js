@@ -197,9 +197,19 @@ Log.warn("Hello  " + name + "!" );
 // ----------------------------------------------------------------------- HttpClient
 title("Test HttpClient");
 
+HttpClient.reset();
+var response = HttpClient.get("localhost:8000","/api/v0/models");
+if (response.status === 200) {
+	Log.info(response.body);
+} else {
+	Log.info("Error calling api " + response.status);
+}
+
+/*
 var status = HttpClient.download("http://www.google.com/", "D:/test.html");
 if (status === 200) {
 	Log.info("Downloaded file test.html");
 } else {
 	Log.error("Error downloading file");
 }
+*/

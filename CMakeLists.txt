@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.9)
+cmake_minimum_required(VERSION 3.20)
 
 project(jsmake)
 enable_language(CXX)
@@ -24,7 +24,8 @@ set(CMAKE_C_FLAGS "-D IW_64")
 
 # Add linker flags to resolve image base issue
 if(WIN32)
-  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} --image-base=0x400000")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wa,-mbig-obj")
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS}")
 endif()
 
 # Explicitly set architecture

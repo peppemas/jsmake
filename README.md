@@ -1,6 +1,6 @@
 # A cross platform maker based on javascript #
 
-A general purpose maker based on javascript. Actually it is used internally to build my own 3D Engine.
+A general purpose command line maker based on javascript.
 
 # Compiling #
 
@@ -22,9 +22,12 @@ Js.include("other.js");  // include a jsmake javascript
 
 **Args**
 
+```bash
 jsmake.exe -a "-o myvalue"
+```
 
 ```
+
 if (Args.exists("-o")) {            // check if option -o exists
     var value = Args.get("-o");     // get the value of -o
 }
@@ -86,4 +89,9 @@ var res = Terminal.prompt(">");     // return the input value after showing the 
 Terminal.multiline(true);           // set multiline input
 Terminal.printKeyCodes();           // print the keycodes
 Terminal.clearScreen()              // clear the screen 
+```
+
+**HTTPClient**
+```
+HttpClient.download("http://www.google.com/", "D:/test.html");  // download a page
 ```

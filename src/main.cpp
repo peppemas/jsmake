@@ -29,10 +29,8 @@ DUK_CPP_DEF_CLASS_NAME(SystemBinder::System);
 DUK_CPP_DEF_CLASS_NAME(TerminalBinder::Terminal);
 DUK_CPP_DEF_CLASS_NAME(HttpBinder::HttpClient);
 
-//using namespace argparse;
-
-int argparse_version_cb(struct argparse *self, const struct argparse_option *option) {
-    std::cout << "VERSION 2024.12.00" << std::endl;
+int argparse_version_cb(argparse *self, const argparse_option *option) {
+    std::cout << "VERSION 2025.5.0" << std::endl;
     exit(0);
 };
 
@@ -57,7 +55,7 @@ int main(int argc, const char** argv)
 		"	::: : ::  :::: ::   :::     ::   ::   :::   ::  :::   :: ::::\n"
 		"	 : :::    :: : :     :      :     :   : :   :   :::  : :: ::\n";
 
-	    struct argparse_option options[] = {
+		argparse_option options[] = {
 	        OPT_HELP(),
 	        OPT_STRING('i', "input", &input_filename, "input filename (default Makefile.js)", nullptr, 0, 0),
 	        OPT_STRING('a', "arguments", &extra_arguments, "pass arguments to the script", nullptr, 0, 0),
@@ -70,7 +68,7 @@ int main(int argc, const char** argv)
 			nullptr,
 		};
 
-		struct argparse argparse;
+		argparse argparse{};
 		argparse_init(&argparse, options, usages, 0);
 		argparse_describe(&argparse, logo, nullptr);
 		argc = argparse_parse(&argparse, argc, argv);

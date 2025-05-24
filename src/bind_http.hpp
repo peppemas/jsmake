@@ -5,14 +5,21 @@
 #ifndef JSMAKE_BIND_HTTP_HPP
 #define JSMAKE_BIND_HTTP_HPP
 
-#include <duktape-cpp/DuktapeCpp.h>
 #include <termcolor/termcolor.hpp>
+#include "type_http.h"
 
 #include <httplib.h>
 #include <fstream>
 #include <iostream>
 
+
 namespace HttpBinder {
+
+    struct Header
+    {
+        std::string name;
+        std::string value;
+    };
 
     class HttpClient {
     public:
@@ -43,6 +50,32 @@ namespace HttpBinder {
             return res->status;
         }
 
+        int AddHeader(const std::string& name, const std::string& value) {
+            headers.push_back({name, value});
+            return 0;
+        }
+
+        int Reset()
+        {
+            headers.clear();
+            return 0;
+        }
+
+        HttpResponse Get(const std::string& host, const std::string& path)
+        {
+            HttpResponse response{};
+            try
+            {
+                httplib::Client cli(host.c_str());
+                auto res = cli.Get(path.c_str());
+                response.status = res->status;
+                response.body = res->body;
+                return response;
+            } catch (const std::exception& e) {
+                return response;
+            }
+        }
+
         /**
          * Inspect method defines class meta information (methods, properties etc..)
          * You can define `inspect` method inline or specialize `duk::Inspect` for your class
@@ -52,10 +85,14 @@ namespace HttpBinder {
         {
             i.construct(&std::make_shared<HttpClient>);
             i.method("download", &HttpClient::Download);
+            i.method("addHeader", &HttpClient::AddHeader);
+            i.method("reset", &HttpClient::Reset);
+            i.method("get", &HttpClient::Get);
         }
 
     private:
         std::stringstream ss;	// ansi string stream
+        std::vector<Header> headers;
     };
 
 }
