@@ -4,7 +4,8 @@
  *  Limitations (also see XXX in source):
  *
  *    - Caller must manually call Promise.runQueue() to process pending jobs.
- *    - No Promise subclassing or non-subclass foreign Promises yet.
+ *    - No Promise sub
+ * classing or non-subclass foreign Promises yet.
  *    - Promise.all() and Promise.race() assume a plain array, not iterator.
  *    - Doesn't handle errors from core operations, e.g. out-of-memory or
  *      internal error when queueing/running jobs.  These are implementation

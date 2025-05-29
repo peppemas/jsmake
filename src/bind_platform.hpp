@@ -1,9 +1,6 @@
 #pragma once
 
 #include <memory>
-#include <iostream>
-
-#include <duktape-cpp/DuktapeCpp.h>
 
 namespace PlatformBinder {
 

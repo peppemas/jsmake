@@ -1,6 +1,6 @@
-# A cross platform maker based on javascript #
+# A cross-platform maker based on JavaScript #
 
-A general purpose command line maker based on javascript.
+A general-purpose command line maker based on JavaScript.
 
 # Compiling #
 

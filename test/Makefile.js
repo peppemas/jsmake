@@ -2,11 +2,22 @@
  *
  * JSMAKEFILE Script Test
  * 
- * Copyright (C) 2020 Victrix Games
+ * Copyright (C) 2025 Victrix Games
  *
  ***************************************************/
 
 var platform = "You are running on ";
+
+// ============== EMULATE A CLASS IN JSMAKEFILE ==========================
+function MyClass(name) {
+	this.name = name;
+}
+MyClass.prototype.sayHello = function() {
+	Log.info("Hello, " + this.name);
+};
+var obj = new MyClass('world');
+obj.sayHello();  // Output: Hello, world
+// ========================================================================
 
 function title(str)
 {
@@ -199,11 +210,8 @@ title("Test HttpClient");
 
 HttpClient.reset();
 var response = HttpClient.get("localhost:8000","/api/v0/models");
-if (response.status === 200) {
-	Log.info(response.body);
-} else {
-	Log.info("Error calling api " + response.status);
-}
+assert(response.status === 200);
+Log.info(response.body);
 
 /*
 var status = HttpClient.download("http://www.google.com/", "D:/test.html");
