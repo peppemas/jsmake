@@ -52,10 +52,23 @@ Platform.isIOS()        // return true if running on IOS platform
 
 **Logging**
 ```
-Log.info("info log");  
-Log.warn("warning log"); 
-Log.error("error log");
-Log.bold("bold!");
+Log.info("info log")        // info
+Log.warn("warning log")     // warning
+Log.error("error log")      // error
+Log.bold("bold!")           // bold 
+Log.red("red")              // red color (no \n) 
+Log.grey("grey")            // grey color (no \n) 
+Log.green("green")          // green color (no \n) 
+Log.yellow("yellow")        // yellow color (no \n) 
+Log.blue("blue")            // blue color (no \n) 
+Log.magenta("magenta")      // magenta color (no \n) 
+Log.cyan("cyan")            // cyan color (no \n) 
+Log.white("white")          // white color (no \n) 
+Log.onCyan("onCyan")        // foreground color on Cyan (no \n)
+Log.onGrey("onGrey")        // foreground color on Grey (no \n)
+Log.onBlue("onBlue")        // foreground color on Blue (no \n)
+Log.onGreen("onGreen")      // foreground color on Green (no \n)
+Log.onRed("onRed")          // foreground color on Red (no \n)
 ```
 
 **Directory**
